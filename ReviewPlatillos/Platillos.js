@@ -1,60 +1,57 @@
 import React, {useState} from 'react';
-import { StyleSheet, Text, View, Button, FlatList, ScrollView, Alert} from 'react-native';
+import { StyleSheet, Text, View, Button, Image, FlatList, ScrollView, Alert} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import App from './App';
-
-export default function Listado({ route, navigation }) {
-    const [categorias, setCategorias]=useState([])
-    const id = 0;
+export default function Platillos({ route, navigation }) {
+    const [platillos, setPlatillos]=useState([])
     cargar()
     const mycard=({item})=>{
         return(
             <View style={styles.tarjeta}>
                 
-                <Text style={styles.titulo}>{item.nombre_cat}</Text>
+                <Text style={styles.titulo}>{item.nombre_plat}</Text>
                 <Text style={styles.text}>{item.descripcion}</Text>
-                <Text style={styles.detalles}>Creado por: {item.user} </Text>
-                <Text style={styles.detalles}>Fecha: {item.fecha_creada}</Text>
-                <TouchableOpacity onPress={()=>{ navigation.push('Platillos')}} >
+                <Text style={styles.detalles}>Categoría: {item.nombre_cat} </Text>
+                <Text style={styles.detalles}>Creado por: {item.user}</Text>
+                <Text style={styles.detalles}>Fecha: {item.fecha}</Text>
+                <Image source={{uri: item.fotografia}} style={{width: 300, height:300}} />
+                
+                <TouchableOpacity onPress={()=>{console.log(item.fotografia), navigation.push('Inicio')}} >
                     <View style={{alignItems:'center'}}>
-                        <Text style={{fontSize:10,fontWeight: 'bold', color:'white',}}>Platillos</Text>
+                        <Text style={{fontSize:10,fontWeight: 'bold', color:'white',}}>Volver</Text>
                     </View>
               </TouchableOpacity>
-              <TouchableOpacity onPress={()=>{ navigation.push('NuevoPlatillo')}} >
-                    <View style={{alignItems:'center'}}>
-                        <Text style={{fontSize:10,fontWeight: 'bold', color:'white',}}>Agregar Platillos</Text>
-                    </View>
-              </TouchableOpacity>
+                
             </View>
         );
     }
-    if(categorias.length>0){
+    if(platillos.length>0){
         return(
             <View style={{marginTop:30, marginBottom:30}}>
                 <View style={{alignItems: 'center', justifyContent: 'center' }}>
-                    <Text style={styles.text}>Listado de Categorías</Text>
+                    <Text style={styles.text}>Listado de Platillos</Text>
                 </View>
                 <FlatList
-                data={categorias}
+                data={platillos}
                 renderItem={mycard}
-                keyExtractor={item => item.id_categoria}
+                keyExtractor={item => item.id_platillo}
                 /> 
             </View>
         );
     }
     function cargar()
 {
-    var query = 'http://192.168.1.8:3001/categoria';
+    var query = 'http://192.168.1.8:3001/plato';
                     fetch(query)
                     .then( res => res.json())
                     .then( datos => {
-                        setCategorias(datos)
+                        setPlatillos(datos)
                         
                     })
                     .catch( error => {
                         console.log(error)
                         Alert.alert("No Hay conexión")
                     })
+                    
                     
 }
 

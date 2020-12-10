@@ -3,36 +3,39 @@ import { __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED } from 'react';
 import { StyleSheet, Text, View, TextInput, Button, DatePicker, Alert} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-import Login from './Login'
-export default function NuevaCategoria({ route, navigation }) {
-    const [nombre_cat, setNombre]=useState('');
-    const [descripcion, setDescripcion]=useState('');
-    const [usuario, setUsuario]=useState();
-    const user = Login.id
+export default function NuevoUsuario({ route, navigation }) {
+    const [nombre, setNombre]=useState('');
+    const [apellido, setApellido]=useState('');
+    const [usuario, setUsuario]=useState('');
+    const [pass, setPwd]=useState('');
     
     return (
       <View style={styles.container}>
-        <Text style={{fontSize: 30,fontWeight: 'bold',}}>Nueva Categoría </Text>
-        <TextInput style={styles.input} onChangeText={(text)=>{setNombre(text)}} placeholder='Nombre'>{nombre_cat}</TextInput>
-        <TextInput style={styles.input} onChangeText={(text)=>{setDescripcion(text)}} placeholder='Descripcion'>{descripcion}</TextInput>
-        
+        <Text style={{fontSize: 30,fontWeight: 'bold',}}>Nuevo Usuario </Text>
+        <TextInput style={styles.input} onChangeText={(text)=>{setNombre(text)}} placeholder='Nombre'>{nombre}</TextInput>
+        <TextInput style={styles.input} onChangeText={(text)=>{setApellido(text)}} placeholder='Apellido'>{apellido}</TextInput>
+        <TextInput style={styles.input} onChangeText={(text)=>{setUsuario(text)}} placeholder='User'>{usuario}</TextInput>
+        <TextInput style={styles.input} onChangeText={(text)=>{setPwd(text)}} placeholder='Contraseña'>{pass}</TextInput>
         <View style={styles.button}>
             <TouchableOpacity onPress={() => {
-              fetch('http://192.168.1.8:3001/categoria', {
+              fetch('http://192.168.1.8:3001/usuario', {
               
                 method: "post",
                 headers: {
                   'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(
-                  { nombre_cat: nombre_cat, descripcion: descripcion, fecha_creada:'1' , usuario:user}
+                  { nombre: nombre, apellidos: apellido, user:usuario , password:pass}
                   )
                 })
                 .then( res=>res.text())
                 .then(res=>{
-                  Alert.alert("Categoría agregada con éxito")
+                  Alert.alert("Usuario agregada con éxito")
                   setNombre('')
-                  setDescripcion('')
+                  setApellido('')
+                  setUsuario('')
+                  setPwd('')
+                  navigation.push('Login')
                 })
                 .catch(error =>console.log('Error: '+error))
               

@@ -5,11 +5,11 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
 export default function Login({ route, navigation}){
+    const [id,setID]=useState('')
     const [usuario, setUsuario]=useState('');
     const [usuarios, setUsuarios]=useState([])
     const [pwd, setpwd]=useState('');
     const [error , setError]=useState('');
-    var id =0
     return(
         <View style={styles.container}>
         <View style={styles.header}>
@@ -23,7 +23,7 @@ export default function Login({ route, navigation}){
             <Text style={{color:'red'}}>{error}</Text>
             <View style={styles.button}>
                 <TouchableOpacity onPress={() => {
-                    query = 'http://192.168.1.8:3001/usuario/'+usuario;
+                    var query = 'http://192.168.1.8:3001/usuario/'+usuario;
                     fetch(query)
                     .then( res => res.json())
                     .then( datos => {
@@ -34,10 +34,12 @@ export default function Login({ route, navigation}){
                         Alert.alert("No Hay conexión")
                     })
                     usuarios.map(u=>{
-                        id=u.id_usuario
-                        console.log(id)
                         if(u.password == pwd){
+                            setID(u.id_usuario)
+                            
                             navigation.push('Inicio')
+                            
+                            
                         }
                         else{
                             Alert.alert("Error", "Ingrese usuario o contraseña validos");

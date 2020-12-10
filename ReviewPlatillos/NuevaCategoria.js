@@ -4,12 +4,10 @@ import { StyleSheet, Text, View, TextInput, Button, DatePicker, Alert} from 'rea
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import Login from './Login'
+const Uid = 2
 export default function NuevaCategoria({ route, navigation }) {
     const [nombre_cat, setNombre]=useState('');
     const [descripcion, setDescripcion]=useState('');
-    const [usuario, setUsuario]=useState();
-    const user = Login.id
-    
     return (
       <View style={styles.container}>
         <Text style={{fontSize: 30,fontWeight: 'bold',}}>Nueva Categoría </Text>
@@ -25,7 +23,7 @@ export default function NuevaCategoria({ route, navigation }) {
                   'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(
-                  { nombre_cat: nombre_cat, descripcion: descripcion, fecha_creada:'1' , usuario:user}
+                  { nombre_cat: nombre_cat, descripcion: descripcion, usuario:Uid}
                   )
                 })
                 .then( res=>res.text())

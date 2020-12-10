@@ -6,14 +6,15 @@ import Listado from './Listado'
 import NuevaCategoria from './NuevaCategoria'
 
 const Tab = createBottomTabNavigator();
-
 export default function Inicio({ route, navigation }) {
+    
     return (
         <Tab.Navigator 
             screenOptions={({ route })=> ({
                 tabBarIcon:({focused,color}) => {
                     let iconName;
                     if (route.name === 'Listado') {
+                        
                         iconName = focused? 'ios-list-box' : 'ios-list'
                     } else if(route.name === 'NuevaCategoria'){
                     iconName = focused

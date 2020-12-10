@@ -7,6 +7,14 @@ const ruteador = app=>{
             response.send(result)
         })
     })
+    app.get('/plato', (request, response)=> {
+        pool.query('SELECT p.id_platillo, p.nombre_plat, p.descripcion, c.nombre_cat, u.user, p.fecha, p.fotografia FROM platillo p INNER JOIN categoría c ON p.categoría = c.id_categoria INNER JOIN usuario u ON p.usuario = u.id_usuario', ( error, result)=>{
+            if(error) throw error
+            response.send(result)
+            console.log(result)
+            console.log(error)
+        })
+    })
     //get categorías nombre
     app.get('/categoria/:nombre', (request, response)=>{
         let s = 'SELECT * FROM categoría WHERE nombre_cat = ?'
@@ -20,24 +28,18 @@ const ruteador = app=>{
     //post categorías
     app.post('/categoria', (request, response)=>{
         let b = request.body
-        let s= 'INSERT INTO categoría (nombre_cat, descripcion, fecha_creada, usuario) VALUES (?,?,now(),?)'
-        pool.query(s,[b.nombre_cat,b.descripcion,b.fecha_creada,b.usuario], (error,result)=>{
+        let s= 'INSERT INTO categoría (nombre_cat, descripcion, usuario, fecha_creada) VALUES (?,?,?,now())'
+        pool.query(s,[b.nombre_cat,b.descripcion,b.usuario], (error,result)=>{
             if(error) throw error
             response.status(201).send(`Categoría Agregada con ID: ${result.insertId}`)
         })
     })
     //get platillo
-    app.get('/platillo/:categoria', (request, response)=> {
-        pool.query('SELECT * FROM platillo WHERE categoria = ?', ( error, result)=>{
-            if(error) throw error
-            response.send(result)
-        })
-    })
     //post categorías
     app.post('/platillo', (request, response)=>{
         let b = request.body
-        let s= 'INSERT INTO platillo (nombre_plat, descripcion, categoria, usuario, fecha, fotografia) VALUES (?,?,?,?,getdate(),?)'
-        pool.query(s,[b.nombre_plat,b.descripcion,b.categoria,b.usuario, b.fecha,b.fotografia], (error,result)=>{
+        let s= 'INSERT INTO platillo (nombre_plat, descripcion, categoría, usuario, fecha, fotografia) VALUES (?,?,?,?,now(),?)'
+        pool.query(s,[b.nombre_plat,b.descripcion,b.categoria,b.usuario,b.fotografia], (error,result)=>{
             if(error) throw error
             response.status(201).send(`Platillo Agregado con ID: ${result.insertId}`)
         })
@@ -46,7 +48,6 @@ const ruteador = app=>{
     //get usuario user
     app.get('/usuario/:user', (request, response)=>{
         let s = 'SELECT * FROM usuario WHERE user = ?'
-        console.log(s)
         pool.query(s,request.params.user,
         (error, result)=>{
             if(error) throw error
