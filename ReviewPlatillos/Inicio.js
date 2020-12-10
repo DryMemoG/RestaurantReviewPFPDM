@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TextInput, Button, ScrollView } from 'react-nat
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Listado from './Listado'
+import NuevaCategoria from './NuevaCategoria'
 
 const Tab = createBottomTabNavigator();
 
@@ -14,7 +15,7 @@ export default function Inicio({ route, navigation }) {
                     let iconName;
                     if (route.name === 'Listado') {
                         iconName = focused? 'ios-list-box' : 'ios-list'
-                    } else if(route.name === 'NuevoP'){
+                    } else if(route.name === 'NuevaCategoria'){
                     iconName = focused
                         ?'ios-add-circle' : 'ios-add-circle-outline';
                     }
@@ -34,7 +35,7 @@ export default function Inicio({ route, navigation }) {
             
             >
             <Tab.Screen name="Listado" component={Listado} />
-            <Tab.Screen name="Nuevo Platillo" component={"NuevoP"} />
+            <Tab.Screen name="Nueva Categoria" component={NuevaCategoria} />
             </Tab.Navigator>
     )
   }
@@ -45,6 +46,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
+        backgroundColor:'#044'
     },
     text: {
         fontSize: 22,

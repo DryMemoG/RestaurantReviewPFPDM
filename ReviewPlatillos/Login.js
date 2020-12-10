@@ -9,6 +9,7 @@ export default function Login({ route, navigation}){
     const [usuarios, setUsuarios]=useState([])
     const [pwd, setpwd]=useState('');
     const [error , setError]=useState('');
+    var id =0
     return(
         <View style={styles.container}>
         <View style={styles.header}>
@@ -33,6 +34,8 @@ export default function Login({ route, navigation}){
                         Alert.alert("No Hay conexión")
                     })
                     usuarios.map(u=>{
+                        id=u.id_usuario
+                        console.log(id)
                         if(u.password == pwd){
                             navigation.push('Inicio')
                         }
@@ -42,8 +45,17 @@ export default function Login({ route, navigation}){
                         
                     })
                 }} >
+                
                 <View style={{alignItems:'center'}}>
                     <Text style={{fontSize:20,fontWeight: 'bold', color:'white',}}>Login</Text>
+                </View>
+              </TouchableOpacity>
+              
+            </View>
+            <View style={styles.button}>
+            <TouchableOpacity onPress={()=>{ navigation.push('NuevoUsuario')}} >
+                <View style={{alignItems:'center'}}>
+                    <Text style={{fontSize:20,fontWeight: 'bold', color:'white',}}>Nuevo Usuario</Text>
                 </View>
               </TouchableOpacity>
             </View>

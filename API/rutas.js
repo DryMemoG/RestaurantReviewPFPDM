@@ -2,7 +2,7 @@ const pool = require('./conexion')
 const ruteador = app=>{
     //get categorías
     app.get('/categoria', (request, response)=> {
-        pool.query('SELECT * FROM categoría', ( error, result)=>{
+        pool.query('SELECT c.id_categoria, c.nombre_cat, c.descripcion,c.fecha_creada, u.user  FROM categoría c INNER JOIN usuario u  ON c.usuario = u.id_usuario', ( error, result)=>{
             if(error) throw error
             response.send(result)
         })
@@ -27,8 +27,8 @@ const ruteador = app=>{
         })
     })
     //get platillo
-    app.get('/platillo', (request, response)=> {
-        pool.query('SELECT * FROM platillo', ( error, result)=>{
+    app.get('/platillo/:categoria', (request, response)=> {
+        pool.query('SELECT * FROM platillo WHERE categoria = ?', ( error, result)=>{
             if(error) throw error
             response.send(result)
         })
